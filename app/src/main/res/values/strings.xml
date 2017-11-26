@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Números da sorte</string>
+    <string name="btSorteio">Números da sorte</string>
+    <string name="btGuardar">Guardar números</string>
+    <string name="btVisualizar">Visualizar números</string>
+    <string name="numeroSorte">Clique abaixo para obter um número</string>
+</resources>
