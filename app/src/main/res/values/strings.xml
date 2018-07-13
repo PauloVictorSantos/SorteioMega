@@ -4,4 +4,5 @@
     <string name="btGuardar">Guardar números</string>
     <string name="btVisualizar">Visualizar números</string>
     <string name="numeroSorte">Clique abaixo para obter um número</string>
+    <string name="success_message">Numeros armzenados com sucesso</string>
 </resources>
