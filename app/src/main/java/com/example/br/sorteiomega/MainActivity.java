@@ -1,19 +1,16 @@
 package com.example.br.sorteiomega;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.SeekBar;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Vector;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     private Button numeroSorte, guardarNumero, visualizarNumero;
     private FormHelper helper;
 
@@ -21,35 +18,32 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initComponents();
+        helper = new FormHelper(this);
+    }
+
+    private void initComponents() {
         numeroSorte = (Button) findViewById(R.id.numeroSorte);
         guardarNumero = (Button) findViewById(R.id.guardarNumero);
         visualizarNumero = (Button) findViewById(R.id.visualizarNumero);
-        helper = new FormHelper(this);
 
-        numeroSorte.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                helper.sorteio();
-            }
+        numeroSorte.setOnClickListener(v->{
+            helper.sorteio();
+            guardarNumero.setEnabled(true);
         });
 
-        guardarNumero.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NumeroMega numeroMega = helper.getNumeroMega();
-                NumeroMegaDAO dao = new NumeroMegaDAO(MainActivity.this);
-                dao.cadastrar(numeroMega);
-                dao.close();
-            }
+        guardarNumero.setOnClickListener(v -> {
+            salvarNumero();
+            Snackbar.make(v,R.string.success_message, Snackbar.LENGTH_LONG).show();
         });
 
-        visualizarNumero.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent= new Intent(v.getContext(), ListaNumMegaActivity.class);
-                startActivity(intent);
-            }
-        });
+        visualizarNumero.setOnClickListener(v -> startActivity(new Intent(v.getContext(), ListaNumMegaActivity.class)));
+    }
 
+    private void salvarNumero() {
+        NumeroMega numeroMega = helper.getNumeroMega();
+        NumeroMegaDAO dao = new NumeroMegaDAO(MainActivity.this);
+        dao.cadastrar(numeroMega);
+        dao.close();
     }
 }
